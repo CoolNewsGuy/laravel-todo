@@ -30,7 +30,7 @@ export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
         className="mt-10 flex items-start justify-center gap-3"
         onSubmit={onSubmit}
       >
-        <div className="flex flex-col gap-2 w-[40%]">
+        <div className="flex flex-col gap-2 w-[max(40%,280px)]">
           <TextInput
             className=""
             placeholder="Add a todo..."
