@@ -6,15 +6,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { type Todo } from "@/types";
-import { Dot } from "lucide-react";
+import { Dot, LogOut, Save } from "lucide-react";
 import Dropdown from "./Dropdown";
+import { useState } from "react";
+import TextInput from "./TextInput";
+import PrimaryButton from "./PrimaryButton";
+import { useForm } from "@inertiajs/react";
+import InputError from "./InputError";
 
 export default function Todo({ todo }: { todo: Todo }) {
+  const [editing, setEditing] = useState(false);
+
   return (
     <Card className="w-[40%] rounded-xl flex justify-between items-center border-2">
       <div>
         <CardHeader>
-          <CardTitle>{todo.title}</CardTitle>
+          <CardTitle>
+            {editing ? (
+              <EditForm todo={todo} setEditing={setEditing} />
+            ) : (
+              todo.title
+            )}
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="text-muted-foreground">
@@ -37,6 +50,12 @@ export default function Todo({ todo }: { todo: Todo }) {
           </Dropdown.Trigger>
 
           <Dropdown.Content>
+            <Dropdown.Item
+              onClick={() => setEditing(true)}
+              className="cursor-pointer"
+            >
+              Edit
+            </Dropdown.Item>
             <Dropdown.Link
               href={route("todos.destroy", todo.id)}
               method="delete"
@@ -47,5 +66,60 @@ export default function Todo({ todo }: { todo: Todo }) {
         </Dropdown>
       </CardFooter>
     </Card>
+  );
+}
+
+function EditForm({
+  todo,
+  setEditing,
+}: {
+  todo: Todo;
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { setData, errors, patch, processing } = useForm({
+    title: todo.title,
+  });
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    patch(route("todos.update", todo.id), {
+      onSuccess: () => {
+        setEditing(false);
+
+        alert("Updated todo!");
+      },
+    });
+  }
+
+  return (
+    <form className="flex gap-2" onSubmit={onSubmit}>
+      <div>
+        <TextInput
+          defaultValue={todo.title}
+          placeholder="Enter new tood..."
+          onChange={(e) => setData("title", e.target.value)}
+        />
+        <InputError message={errors.title} />
+      </div>
+
+      <PrimaryButton
+        className="dark:bg-indigo-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
+        aria-label="Save edit"
+        disabled={processing}
+      >
+        <Save className="stroke-white" />
+      </PrimaryButton>
+
+      <PrimaryButton
+        type="button"
+        className="dark:bg-gray-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
+        aria-label="Exit editing mode"
+        onClick={() => setEditing(false)}
+        disabled={processing}
+      >
+        <LogOut className="stroke-white" />
+      </PrimaryButton>
+    </form>
   );
 }

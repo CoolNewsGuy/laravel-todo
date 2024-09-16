@@ -63,9 +63,17 @@ class TodoController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Todo $todo)
+  public function update(Request $request, Todo $todo): RedirectResponse
   {
-    //
+    Gate::authorize("update", $todo);
+
+    $validated = $request->validate([
+      'title' => 'required|string|max:255'
+    ]);
+
+    $todo->update($validated);
+
+    return redirect(route('todos.index'));
   }
 
   /**
