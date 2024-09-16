@@ -1,12 +1,13 @@
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
+import Todo from "@/Components/TodoCard";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps, Todo } from "@/types";
+import { PageProps, Todo as TodoType } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
-export default function Todos({ todos }: PageProps<{ todos: Todo[] }>) {
+export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
   const { data, setData, errors, processing, post } = useForm({
     title: "",
   });
@@ -43,6 +44,12 @@ export default function Todos({ todos }: PageProps<{ todos: Todo[] }>) {
           <Plus className="stroke-white" />
         </PrimaryButton>
       </form>
+
+      <div className="flex flex-col items-center mt-9 gap-3">
+        {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} />
+        ))}
+      </div>
     </AuthenticatedLayout>
   );
 }
