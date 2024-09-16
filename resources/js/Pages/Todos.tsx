@@ -8,14 +8,18 @@ import { Head, useForm } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
 export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
-  const { data, setData, errors, processing, post } = useForm({
+  const { data, setData, errors, processing, post, reset } = useForm({
     title: "",
   });
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    post(route("todos.store"), { onSuccess: () => alert("Added a new todo!") });
+    post(route("todos.store"), {
+      onSuccess: () => {
+        reset();
+      },
+    });
   }
 
   return (
