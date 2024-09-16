@@ -6,6 +6,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { Button } from "@/components/ui/button";
 
 export default function Login({
   status,
@@ -38,6 +39,12 @@ export default function Login({
 
       <form onSubmit={submit}>
         <div>
+          <Button className="w-full mb-10 bg-indigo-800 text-white hover:bg-indigo-900" asChild>
+            <a href="/auth/google">
+            Contine with google
+            </a>
+          </Button>
+
           <InputLabel htmlFor="email" value="Email" />
 
           <TextInput

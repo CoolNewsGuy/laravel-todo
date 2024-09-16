@@ -2,9 +2,14 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 Route::get('/', function () {
   return Inertia::render('Welcome', [
@@ -28,5 +33,26 @@ Route::middleware('auth')->group(function () {
 Route::resource('todos', TodoController::class)
   ->only(['index', 'store', 'destroy', 'update'])
   ->middleware(["auth", "verified"]);
+
+Route::get("/auth/google", function () {
+  return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+  $googleUser = Socialite::driver('google')->user();
+
+  $user = User::firstOrCreate(
+    ['email' => $googleUser->email],
+    [
+      'name' => $googleUser->name,
+      'google_id' => $googleUser->id,
+      'password' => Hash::make(Str::random(16)),
+    ]
+  );
+
+  Auth::login($user);
+
+  return redirect('/dashboard');
+});
 
 require __DIR__ . '/auth.php';
