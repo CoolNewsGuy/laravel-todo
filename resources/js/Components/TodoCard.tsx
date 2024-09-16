@@ -35,6 +35,15 @@ export default function Todo({ todo }: { todo: Todo }) {
               ))}
             </button>
           </Dropdown.Trigger>
+
+          <Dropdown.Content>
+            <Dropdown.Link
+              href={route("todos.destroy", todo.id)}
+              method="delete"
+            >
+              Delete
+            </Dropdown.Link>
+          </Dropdown.Content>
         </Dropdown>
       </CardFooter>
     </Card>
