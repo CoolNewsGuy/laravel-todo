@@ -14,6 +14,10 @@ import PrimaryButton from "./PrimaryButton";
 import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
 import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function Todo({ todo }: { todo: Todo }) {
   const [editing, setEditing] = useState(false);
@@ -35,7 +39,15 @@ export default function Todo({ todo }: { todo: Todo }) {
         </CardHeader>
 
         <CardContent className="text-muted-foreground">
-          {new Date(todo.created_at).toLocaleString()}
+          {dayjs(todo.created_at).toLocaleString()}
+          <b>{" - "}</b>
+          {todo.created_at !== todo.updated_at ? (
+            <>
+              <strong>edited</strong> {dayjs(todo.updated_at).fromNow()}
+            </>
+          ) : (
+            dayjs(todo.created_at).fromNow()
+          )}
         </CardContent>
       </div>
 
