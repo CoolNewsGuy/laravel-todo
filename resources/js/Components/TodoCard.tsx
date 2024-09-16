@@ -11,7 +11,7 @@ import Dropdown from "./Dropdown";
 
 export default function Todo({ todo }: { todo: Todo }) {
   return (
-    <Card className="w-[40%] rounded-xl flex justify-between items-center">
+    <Card className="w-[40%] rounded-xl flex justify-between items-center border-2">
       <div>
         <CardHeader>
           <CardTitle>{todo.title}</CardTitle>
