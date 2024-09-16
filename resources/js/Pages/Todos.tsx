@@ -1,3 +1,4 @@
+import DangerButton from "@/Components/DangerButton";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
@@ -49,7 +50,13 @@ export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
         </PrimaryButton>
       </form>
 
-      <div className="flex flex-col items-center mt-9 gap-3">
+      <div className="flex flex-col items-center mt-14 gap-3">
+        <div className="w-[max(40%,529px)] max-[555px]:w-[90%]">
+          <DangerButton className="border-2 border-red-800">
+            delete all
+          </DangerButton>
+        </div>
+
         {todos.map((todo) => (
           <Todo key={todo.id} todo={todo} />
         ))}
