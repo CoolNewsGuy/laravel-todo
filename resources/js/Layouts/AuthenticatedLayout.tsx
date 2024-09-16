@@ -4,6 +4,9 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
+import { Button } from "@/components/ui/button";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/Components/ThemeProvider";
 
 export default function Authenticated({
   header,
@@ -13,6 +16,8 @@ export default function Authenticated({
 
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
+
+  const { theme, setTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -43,6 +48,14 @@ export default function Authenticated({
             </div>
 
             <div className="hidden sm:flex sm:items-center sm:ms-6">
+              <Button
+                size="icon"
+                className="dark:bg-indigo-800 dark:text-white"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? <Moon /> : <Sun />}
+              </Button>
+
               <div className="ms-3 relative">
                 <Dropdown>
                   <Dropdown.Trigger>
@@ -86,6 +99,13 @@ export default function Authenticated({
             </div>
 
             <div className="-me-2 flex items-center sm:hidden">
+              <Button
+                size="icon"
+                className="dark:bg-indigo-800 dark:text-white scale-90"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? <Moon /> : <Sun />}
+              </Button>
               <button
                 onClick={() =>
                   setShowingNavigationDropdown(
