@@ -15,7 +15,10 @@ class TodoController extends Controller
    */
   public function index(): Response
   {
-    return Inertia::render("Todos");
+
+    return Inertia::render("Todos", [
+      'todos' => Todo::all()
+    ]);
   }
 
   /**

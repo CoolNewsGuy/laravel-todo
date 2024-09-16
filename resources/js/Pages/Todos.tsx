@@ -2,10 +2,11 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { PageProps, Todo } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
-export default function Todos() {
+export default function Todos({ todos }: PageProps<{ todos: Todo[] }>) {
   const { data, setData, errors, processing, post } = useForm({
     title: "",
   });
