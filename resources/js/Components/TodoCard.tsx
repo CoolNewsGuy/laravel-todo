@@ -18,7 +18,7 @@ export default function Todo({ todo }: { todo: Todo }) {
   const [editing, setEditing] = useState(false);
 
   return (
-    <Card className="w-[40%] rounded-xl flex justify-between items-center border-2">
+    <Card className="w-[max(40%,529px)] rounded-xl flex justify-between items-center border-2">
       <div>
         <CardHeader>
           <CardTitle>
@@ -59,6 +59,7 @@ export default function Todo({ todo }: { todo: Todo }) {
             <Dropdown.Link
               href={route("todos.destroy", todo.id)}
               method="delete"
+              as="button"
             >
               Delete
             </Dropdown.Link>
