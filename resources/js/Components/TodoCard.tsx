@@ -13,12 +13,16 @@ import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
+import { cn } from "@/lib/utils";
 
 export default function Todo({ todo }: { todo: Todo }) {
   const [editing, setEditing] = useState(false);
 
   return (
-    <Card className="w-[max(40%,529px)] rounded-xl flex justify-between items-center border-2">
+    <Card
+      className="w-[max(40%,529px)] rounded-xl flex items-center justify-between border-2
+                 max-[555px]:w-[90%]"
+    >
       <div>
         <CardHeader>
           <CardTitle>
@@ -35,7 +39,7 @@ export default function Todo({ todo }: { todo: Todo }) {
         </CardContent>
       </div>
 
-      <CardFooter className="py-0">
+      <CardFooter className={cn("py-0", editing && "max-[555px]:hidden")}>
         <Dropdown>
           <Dropdown.Trigger>
             <button
@@ -94,33 +98,39 @@ function EditForm({
   }
 
   return (
-    <form className="flex gap-2" onSubmit={onSubmit}>
+    <form
+      className="flex items-start gap-3 max-[555px]:flex-col"
+      onSubmit={onSubmit}
+    >
       <div>
         <TextInput
           defaultValue={todo.title}
-          placeholder="Enter new tood..."
+          placeholder="Enter new todo..."
           onChange={(e) => setData("title", e.target.value)}
+          className="font-normal"
         />
         <InputError message={errors.title} />
       </div>
 
-      <PrimaryButton
-        className="dark:bg-indigo-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
-        aria-label="Save edit"
-        disabled={processing}
-      >
-        <Save className="stroke-white" />
-      </PrimaryButton>
+      <div className="flex gap-2">
+        <PrimaryButton
+          className="dark:bg-indigo-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
+          aria-label="Save edit"
+          disabled={processing}
+        >
+          <Save className="stroke-white" />
+        </PrimaryButton>
 
-      <PrimaryButton
-        type="button"
-        className="dark:bg-gray-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
-        aria-label="Exit editing mode"
-        onClick={() => setEditing(false)}
-        disabled={processing}
-      >
-        <LogOut className="stroke-white" />
-      </PrimaryButton>
+        <PrimaryButton
+          type="button"
+          className="dark:bg-gray-800 hover:dark:bg-indigo-900 active:dark:bg-indigo-900 focus:dark:bg-indigo-900"
+          aria-label="Exit editing mode"
+          onClick={() => setEditing(false)}
+          disabled={processing}
+        >
+          <LogOut className="stroke-white" />
+        </PrimaryButton>
+      </div>
     </form>
   );
 }
