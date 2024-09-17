@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Color;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -51,15 +50,18 @@ Route::get('/auth/callback', function () {
 Route::resource('colors', ColorController::class)
   ->middleware(['auth', 'verified']);
 
-Route::post('/add-sample-colors', function (User $user) {
+Route::post('/add-sample-colors', function () {
   $sampleColors = ["#ace", "#f2c", "#2ec", "#9c2", "#ff8", "#2ff"];
+  $user = Auth::user();
 
   foreach ($sampleColors as $color) {
-    Color::create([
+    $user->colors()->create([
       'color' => $color,
-      'user_id' => $user->id
     ]);
   }
+
+  $user->has_added_color = true;
+  $user->save();
 })
   ->middleware(['auth', 'verified']);
 
