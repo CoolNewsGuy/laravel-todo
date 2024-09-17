@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Color;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ColorController extends Controller
 {
@@ -12,7 +13,7 @@ class ColorController extends Controller
    */
   public function index()
   {
-    //
+    return Inertia::render('Colors/Index');
   }
 
   /**
