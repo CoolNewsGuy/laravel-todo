@@ -39,10 +39,10 @@ export default function Authenticated({
                   Dashboard
                 </NavLink>
                 <NavLink
-                  href={route("todos.index")}
-                  active={route().current("todos.index")}
+                  href={route("colors.index")}
+                  active={route().current("colors.index")}
                 >
-                  Todos
+                  Colors
                 </NavLink>
               </div>
             </div>
@@ -157,10 +157,10 @@ export default function Authenticated({
               Dashboard
             </ResponsiveNavLink>
             <ResponsiveNavLink
-              href={route("todos.index")}
-              active={route().current("todos.index")}
+              href={route("colors.index")}
+              active={route().current("colors.index")}
             >
-              Todos
+              Colors
             </ResponsiveNavLink>
           </div>
 
