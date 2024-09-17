@@ -2,11 +2,9 @@
 
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TodoController;
-use App\Models\Todo;
+use App\Models\Color;
 use App\Models\User;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +49,18 @@ Route::get('/auth/callback', function () {
 });
 
 Route::resource('colors', ColorController::class)
+  ->middleware(['auth', 'verified']);
+
+Route::post('/add-sample-colors', function (User $user) {
+  $sampleColors = ["#ace", "#f2c", "#2ec", "#9c2", "#ff8", "#2ff"];
+
+  foreach ($sampleColors as $color) {
+    Color::create([
+      'color' => $color,
+      'user_id' => $user->id
+    ]);
+  }
+})
   ->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';
