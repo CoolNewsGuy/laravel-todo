@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, convertTo6DigitsHex } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
 import { Check, Copy, Heart } from "lucide-react";
@@ -74,7 +74,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       </div>
 
       <div className="flex justify-center text-lg uppercase p-3 border dark:bg-gray-800 dark:border-gray-700 rounded-b-md">
-        {color.color}
+        {convertTo6DigitsHex(color.color)}
       </div>
     </div>
   );
