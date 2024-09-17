@@ -11,6 +11,7 @@ export interface User {
 export interface Color {
   id: number;
   color: string;
+  is_favorite: boolean;
   user_id: number;
   created_at: string;
   updated_at: string;
