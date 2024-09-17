@@ -30,7 +30,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       title="Copy color"
       onClick={copyColorToClipboard}
     >
-      <div className="h-[12rem] relative" style={{ backgroundColor: color }}>
+      <div className="h-[13rem] relative" style={{ backgroundColor: color }}>
         <Button
           className={cn(
             "absolute right-4 top-4 size-[2.1rem] border-gray-400 border bg-white hover:bg-white/90 transition-colors",
