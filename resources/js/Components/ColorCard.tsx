@@ -24,14 +24,14 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   return (
     <div
       className={cn(
-        "rounded-md overflow-hidden transition-transform hover:scale-105",
+        "rounded-md overflow-hidden transition-transform shadow-md hover:scale-105",
         className
       )}
     >
       <div className="h-[12rem] relative" style={{ backgroundColor: color }}>
         <Button
           className={cn(
-            "absolute right-4 top-4 size-[2.1rem] border-gray-400 border transition-colors",
+            "absolute right-4 top-4 size-[2.1rem] border-gray-400 border bg-white hover:bg-white/90 transition-colors",
             copied && "bg-green-400 border-transparent hover:bg-green-400"
           )}
           size={"icon"}
@@ -42,7 +42,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
           {copied ? (
             <Check className="stroke-white" size={20} />
           ) : (
-            <Copy size={17} />
+            <Copy className="stroke-black" size={17} />
           )}
         </Button>
       </div>
