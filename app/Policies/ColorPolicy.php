@@ -37,7 +37,7 @@ class ColorPolicy
    */
   public function update(User $user, Color $color): bool
   {
-    //
+    return $color->user()->is($user);
   }
 
   /**
