@@ -22,11 +22,13 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   }
 
   return (
-    <div
+    <button
       className={cn(
         "rounded-md overflow-hidden transition-transform shadow-md hover:scale-105",
         className
       )}
+      title="Copy color"
+      onClick={copyColorToClipboard}
     >
       <div className="h-[12rem] relative" style={{ backgroundColor: color }}>
         <Button
@@ -50,6 +52,6 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       <div className="flex justify-center text-lg uppercase p-3 border dark:bg-gray-800 dark:border-gray-700 rounded-b-md">
         {color}
       </div>
-    </div>
+    </button>
   );
 }
