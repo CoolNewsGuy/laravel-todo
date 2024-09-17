@@ -5,7 +5,7 @@ import TextInput from "@/Components/TextInput";
 import Todo from "@/Components/TodoCard";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps, Todo as TodoType } from "@/types";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
 export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
@@ -52,9 +52,7 @@ export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
 
       <div className="flex flex-col items-center mt-14 gap-3">
         <div className="w-[max(40%,529px)] max-[555px]:w-[90%]">
-          <DangerButton className="border-2 border-red-800">
-            delete all
-          </DangerButton>
+          <DeleteAllButton />
         </div>
 
         {todos.map((todo) => (
@@ -62,5 +60,15 @@ export default function Todos({ todos }: PageProps<{ todos: TodoType[] }>) {
         ))}
       </div>
     </AuthenticatedLayout>
+  );
+}
+
+function DeleteAllButton() {
+  return (
+    <Link as="div" href={"/delete-all-todos"} method="delete">
+      <DangerButton className="border-2 border-red-800">
+        delete all
+      </DangerButton>
+    </Link>
   );
 }

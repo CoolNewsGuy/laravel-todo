@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
+use App\Models\Todo;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +55,10 @@ Route::get('/auth/callback', function () {
   Auth::login($user);
 
   return redirect('/dashboard');
+});
+
+Route::delete('/delete-all-todos', function (Request $request) {
+  Todo::where('user_id', $request->user()->id)->delete();
 });
 
 require __DIR__ . '/auth.php';
