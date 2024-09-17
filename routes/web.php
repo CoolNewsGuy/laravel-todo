@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use App\Models\Todo;
@@ -48,5 +49,8 @@ Route::get('/auth/callback', function () {
 
   return redirect('/dashboard');
 });
+
+Route::resource('colors', ColorController::class)
+  ->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';
