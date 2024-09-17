@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('colors', function (Blueprint $table) {
       $table->id();
       $table->string('color');
+      $table->boolean('is_favorite')->default(false);
       $table->foreignId('user_id')->constrained()->cascadeOnDelete();
       $table->timestamps();
     });
