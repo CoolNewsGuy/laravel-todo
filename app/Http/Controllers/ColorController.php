@@ -13,7 +13,9 @@ class ColorController extends Controller
    */
   public function index()
   {
-    return Inertia::render('Colors/Index');
+    return Inertia::render('Colors/Index', [
+      'colors' => Color::all()
+    ]);
   }
 
   /**
