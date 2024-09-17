@@ -5,7 +5,7 @@ export interface User {
   name: string;
   email: string;
   email_verified_at?: string;
-  has_added_value: boolean;
+  has_added_color: boolean;
 }
 
 export type PageProps<
