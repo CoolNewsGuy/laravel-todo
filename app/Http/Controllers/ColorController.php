@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
+use DB;
+use Gate;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +17,7 @@ class ColorController extends Controller
   public function index()
   {
     return Inertia::render('Colors/Index', [
-      'colors' => Color::all()
+      'colors' => DB::table('colors')->orderBy('id')->get()
     ]);
   }
 
@@ -53,9 +56,14 @@ class ColorController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Color $color)
+  public function update(Request $request, Color $color): RedirectResponse
   {
-    //
+    Gate::authorize('update', $color);
+
+    $color->is_favorite = !$color->is_favorite;
+    $color->save();
+
+    return redirect(route('colors.index'));
   }
 
   /**

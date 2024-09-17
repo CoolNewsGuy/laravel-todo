@@ -20,7 +20,7 @@ export default function Index({
 
       <div className="grid grid-cols-1 sm:w-[90%] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10 justify-items-stretch w-[85%] mx-auto">
         {colors.map((color) => (
-          <ColorCard key={color.id} color={color.color} />
+          <ColorCard key={color.id} color={color} />
         ))}
       </div>
     </AuthenticatedLayout>

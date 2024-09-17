@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Check, Copy } from "lucide-react";
+import { Color } from "@/types";
+import { router } from "@inertiajs/react";
+import { Check, Copy, Heart } from "lucide-react";
 import { useState } from "react";
 
 interface ColorCardProps {
-  color: string;
+  color: Color;
   className?: string;
 }
 
@@ -12,7 +14,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
 
   async function copyColorToClipboard() {
-    await navigator.clipboard.writeText(color);
+    await navigator.clipboard.writeText(color.color);
 
     setCopied(true);
 
@@ -30,7 +32,10 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       title="Copy color"
       onClick={copyColorToClipboard}
     >
-      <div className="h-[13rem] relative" style={{ backgroundColor: color }}>
+      <div
+        className="h-[13rem] relative"
+        style={{ backgroundColor: color.color }}
+      >
         <Button
           className={cn(
             "absolute right-4 top-4 size-[2.1rem] border-gray-400 border bg-white hover:bg-white/90 transition-colors",
@@ -47,10 +52,29 @@ export default function ColorCard({ color, className }: ColorCardProps) {
             <Copy className="stroke-black" size={17} />
           )}
         </Button>
+        <Button
+          className={cn(
+            "absolute right-4 top-14 size-[2.1rem] border-gray-400 border bg-white text-black hover:bg-red-50 hover:border-red-400 hover:text-red-400 transition-colors",
+            color.is_favorite && "bg-red-200 text-red-500 border-transparent"
+          )}
+          size={"icon"}
+          aria-label={"Add to favorite"}
+          title={"Add to favorite"}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            router.patch(route("colors.update", color.id));
+          }}
+        >
+          <Heart
+            className={cn(color.is_favorite && "fill-red-500")}
+            size={20}
+          />
+        </Button>
       </div>
 
       <div className="flex justify-center text-lg uppercase p-3 border dark:bg-gray-800 dark:border-gray-700 rounded-b-md">
-        {color}
+        {color.color}
       </div>
     </div>
   );
