@@ -32,14 +32,6 @@ Route::middleware('auth')->group(function () {
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('todos', TodoController::class)
-  ->only(['index', 'store', 'destroy', 'update'])
-  ->middleware(["auth", "verified"]);
-
-Route::get("/auth/google", function () {
-  return Socialite::driver('google')->redirect();
-});
-
 Route::get('/auth/callback', function () {
   $googleUser = Socialite::driver('google')->user();
 
@@ -55,10 +47,6 @@ Route::get('/auth/callback', function () {
   Auth::login($user);
 
   return redirect('/dashboard');
-});
-
-Route::delete('/delete-all-todos', function (Request $request) {
-  Todo::where('user_id', $request->user()->id)->delete();
 });
 
 require __DIR__ . '/auth.php';
