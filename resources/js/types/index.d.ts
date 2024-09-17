@@ -8,6 +8,14 @@ export interface User {
   has_added_color: boolean;
 }
 
+export interface Color {
+  id: number;
+  color: string;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export type PageProps<
   T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
