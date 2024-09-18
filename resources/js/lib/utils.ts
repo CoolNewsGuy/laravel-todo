@@ -8,10 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * @returns `null` if unable to convert
  */
-export function getTheFullHexColorForm(str: string): string | null {
-  const digitsAfterHashtag = str.slice(1);
+export function getTheFullHexColorForm(hexStr: string): string | null {
+  const digitsAfterHashtag = hexStr.slice(1);
 
-  if (str.startsWith("#") && [3, 4].includes(digitsAfterHashtag.length)) {
+  if (hexStr.startsWith("#") && [3, 4].includes(digitsAfterHashtag.length)) {
     let result = "#";
 
     for (const digit of digitsAfterHashtag) {
