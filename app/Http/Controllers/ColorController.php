@@ -32,9 +32,20 @@ class ColorController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(Request $request): RedirectResponse
   {
-    //
+    $validated = $request->validate([
+      'red'   => 'required|string|min:1|max:2|regex:/^[0-9A-F]+$/i',
+      'green' => 'required|string|min:1|max:2|regex:/^[0-9A-F]+$/i',
+      'blue'  => 'required|string|min:1|max:2|regex:/^[0-9A-F]+$/i',
+    ]);
+
+
+    $request->user()->colors()->create([
+      'color' => '#' . $validated['red'] . $validated['green'] . $validated['blue']
+    ]);
+
+    return redirect(route('colors.index'));
   }
 
   /**

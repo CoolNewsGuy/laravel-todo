@@ -1,4 +1,5 @@
 import ColorCard from "@/Components/ColorCard";
+import NewColorForm from "@/Components/NewColorForm";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Color, PageProps } from "@/types";
 import { Head, router } from "@inertiajs/react";
@@ -17,6 +18,10 @@ export default function Index({
   return (
     <AuthenticatedLayout>
       <Head title="Colors" />
+
+      <div className="flex justify-center mt-10">
+        <NewColorForm />
+      </div>
 
       <div className="grid grid-cols-1 sm:w-[90%] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10 justify-items-stretch w-[85%] mx-auto">
         {colors.map((color) => (
