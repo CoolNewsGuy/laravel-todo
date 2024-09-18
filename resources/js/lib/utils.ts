@@ -23,3 +23,7 @@ export function convertTo6DigitsHex(str: string): string | null {
 
   return null;
 }
+
+export function containsOnlyHexDigits(str: string): boolean {
+  return str.split("").filter((c) => !c.match(/^[0-9A-F]+$/i)).length === 0;
+}
