@@ -3,7 +3,7 @@ import { cn, convertTo6DigitsHex } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
 import { Check, Copy, Heart } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface ColorCardProps {
   color: Color;
@@ -12,9 +12,13 @@ interface ColorCardProps {
 
 export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
+  let colorNameUpperCased = useMemo(
+    () => convertTo6DigitsHex(color.color)!.toUpperCase(),
+    [color.color]
+  );
 
   async function copyColorToClipboard() {
-    await navigator.clipboard.writeText(color.color);
+    await navigator.clipboard.writeText(colorNameUpperCased);
 
     setCopied(true);
 
@@ -74,7 +78,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       </div>
 
       <div className="flex justify-center text-lg uppercase p-3 border dark:bg-gray-800 dark:border-gray-700 rounded-b-md">
-        {convertTo6DigitsHex(color.color)}
+        {colorNameUpperCased}
       </div>
     </div>
   );
