@@ -27,6 +27,12 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     }, 500);
   }
 
+  function addToFavorite(e: React.MouseEvent) {
+    e.stopPropagation();
+
+    router.patch(route("colors.update", color.id));
+  }
+
   return (
     <div
       className={cn(
@@ -34,6 +40,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         className
       )}
       title="Copy color"
+      onDoubleClick={addToFavorite}
       onClick={copyColorToClipboard}
     >
       <div
@@ -64,11 +71,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
           size={"icon"}
           aria-label={"Add to favorite"}
           title={"Add to favorite"}
-          onClick={(e) => {
-            e.stopPropagation();
-
-            router.patch(route("colors.update", color.id));
-          }}
+          onClick={addToFavorite}
         >
           <Heart
             className={cn(color.is_favorite && "fill-red-500")}
