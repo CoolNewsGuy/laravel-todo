@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { cn, convertTo6DigitsHex } from "@/lib/utils";
+import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
 import { Check, Copy, Heart } from "lucide-react";
@@ -13,7 +13,7 @@ interface ColorCardProps {
 export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
   let colorNameUpperCased = useMemo(
-    () => convertTo6DigitsHex(color.color)!.toUpperCase(),
+    () => getTheFullHexColorForm(color.color)!.toUpperCase(),
     [color.color]
   );
 

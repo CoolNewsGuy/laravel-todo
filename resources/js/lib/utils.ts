@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * @returns `null` if unable to convert
  */
-export function convertTo6DigitsHex(str: string): string | null {
+export function getTheFullHexColorForm(str: string): string | null {
   const digitsAfterHashtag = str.slice(1);
 
   if (str.startsWith("#") && [3, 4].includes(digitsAfterHashtag.length)) {
