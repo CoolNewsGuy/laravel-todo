@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
-import { Check, Copy, Heart } from "lucide-react";
+import { Check, Copy, Heart, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
 interface ColorCardProps {
@@ -31,6 +31,10 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     e.stopPropagation();
 
     router.patch(route("colors.update", color.id));
+  }
+
+  function removeColor() {
+    router.delete(route("colors.destroy", color.id));
   }
 
   return (
@@ -77,6 +81,17 @@ export default function ColorCard({ color, className }: ColorCardProps) {
             className={cn(color.is_favorite && "fill-red-500")}
             size={20}
           />
+        </Button>
+        <Button
+          className={cn(
+            "absolute right-4 top-24 size-[2.1rem] bg-red-600 text-white hover:bg-red-700 active:bg-red-800 transition-colors"
+          )}
+          size={"icon"}
+          aria-label={"Remove color"}
+          title={"Remove color"}
+          onClick={removeColor}
+        >
+          <Trash2 size={20} />
         </Button>
       </div>
 

@@ -80,8 +80,12 @@ class ColorController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Color $color)
+  public function destroy(Color $color): RedirectResponse
   {
-    //
+    Gate::authorize('delete', $color);
+
+    $color->delete();
+
+    return redirect(route('colors.index'));
   }
 }

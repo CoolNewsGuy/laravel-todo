@@ -45,7 +45,7 @@ class ColorPolicy
    */
   public function delete(User $user, Color $color): bool
   {
-    //
+    return $this->update($user, $color);
   }
 
   /**
