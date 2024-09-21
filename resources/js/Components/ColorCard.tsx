@@ -56,7 +56,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     );
   }
 
-  function removeColor() {
+  function removeColor(e: React.MouseEvent) {
+    e.stopPropagation();
+
     router.delete(route("colors.destroy", color.id), {
       onSuccess() {
         notification.show({
