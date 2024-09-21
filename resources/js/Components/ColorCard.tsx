@@ -32,7 +32,28 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   function addToFavorite(e: React.MouseEvent) {
     e.stopPropagation();
 
-    router.patch(route("colors.update", color.id));
+    router.patch(
+      route("colors.update", color.id),
+      {},
+      {
+        onSuccess() {
+          notification.show({
+            message: !color.is_favorite
+              ? "Added color to favorites!"
+              : "Removed color from favorites!",
+            state: "success",
+          });
+        },
+        onError() {
+          notification.show({
+            message: !color.is_favorite
+              ? "Couldn't add color to favorites!"
+              : "Couldn't remove color from favorites",
+            state: "error",
+          });
+        },
+      }
+    );
   }
 
   function removeColor() {
