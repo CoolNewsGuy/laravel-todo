@@ -70,7 +70,7 @@ export default function NewColorForm() {
               </label>
               <TextInput
                 id={color}
-                className="size-[3.3rem] p-3 uppercase text-lg text-center"
+                className="size-[3.3rem] p-3 text-center text-lg uppercase"
                 maxLength={2}
                 value={data[color]}
                 onChange={(e) => {
@@ -81,10 +81,10 @@ export default function NewColorForm() {
             </div>
           ))}
 
-          <div className="flex flex-col items-center gap-2 ml-2">
-            <label className="text-lg invisible">s</label>
+          <div className="ml-2 flex flex-col items-center gap-2">
+            <label className="invisible text-lg">s</label>
             <PrimaryButton
-              className="size-[3.3rem] dark:bg-indigo-800 dark:text-white dark:hover:!bg-indigo-900 dark:active:bg-indigo-900 dark:focus:!bg-indigo-900"
+              className="size-[3.3rem] dark:bg-indigo-800 dark:text-white dark:hover:!bg-indigo-900 dark:focus:!bg-indigo-900 dark:active:bg-indigo-900"
               disabled={processing}
             >
               <Plus />

@@ -15,7 +15,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
   let colorNameUpperCased = useMemo(
     () => getTheFullHexColorForm(color.color)!.toUpperCase(),
-    [color.color]
+    [color.color],
   );
   const notification = useNotification();
 
@@ -52,7 +52,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
             state: "error",
           });
         },
-      }
+      },
     );
   }
 
@@ -79,21 +79,21 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   return (
     <div
       className={cn(
-        "rounded-md overflow-hidden transition-transform shadow-md cursor-pointer hover:scale-105",
-        className
+        "cursor-pointer overflow-hidden rounded-md shadow-md transition-transform hover:scale-105",
+        className,
       )}
       title="Copy color"
       onDoubleClick={addToFavorite}
       onClick={copyColorToClipboard}
     >
       <div
-        className="h-[13rem] relative"
+        className="relative h-[13rem]"
         style={{ backgroundColor: color.color }}
       >
         <Button
           className={cn(
-            "absolute right-4 top-4 size-[2.1rem] border-gray-400 border bg-white hover:bg-white/90 transition-colors",
-            copied && "bg-green-400 border-transparent hover:bg-green-400"
+            "absolute right-4 top-4 size-[2.1rem] border border-gray-400 bg-white transition-colors hover:bg-white/90",
+            copied && "border-transparent bg-green-400 hover:bg-green-400",
           )}
           size={"icon"}
           onClick={copyColorToClipboard}
@@ -108,8 +108,8 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         </Button>
         <Button
           className={cn(
-            "absolute right-4 top-14 size-[2.1rem] border-gray-400 border bg-white text-black hover:bg-red-50 hover:border-red-400 hover:text-red-400 transition-colors",
-            color.is_favorite && "bg-red-200 text-red-500 border-transparent"
+            "absolute right-4 top-14 size-[2.1rem] border border-gray-400 bg-white text-black transition-colors hover:border-red-400 hover:bg-red-50 hover:text-red-400",
+            color.is_favorite && "border-transparent bg-red-200 text-red-500",
           )}
           size={"icon"}
           aria-label={"Add to favorite"}
@@ -123,7 +123,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         </Button>
         <Button
           className={cn(
-            "absolute right-4 top-24 size-[2.1rem] bg-red-600 text-white hover:bg-red-700 active:bg-red-800 transition-colors"
+            "absolute right-4 top-24 size-[2.1rem] bg-red-600 text-white transition-colors hover:bg-red-700 active:bg-red-800",
           )}
           size={"icon"}
           aria-label={"Remove color"}
@@ -134,7 +134,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         </Button>
       </div>
 
-      <div className="flex justify-center text-lg uppercase p-3 border dark:bg-gray-800 dark:border-gray-700 rounded-b-md">
+      <div className="flex justify-center rounded-b-md border p-3 text-lg uppercase dark:border-gray-700 dark:bg-gray-800">
         {colorNameUpperCased}
       </div>
     </div>
