@@ -18,6 +18,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     [color.color],
   );
   const notification = useNotification();
+  const [showBigHeart, setShowBigHeart] = useState(false);
 
   async function copyColorToClipboard() {
     await navigator.clipboard.writeText(colorNameUpperCased);
@@ -31,6 +32,15 @@ export default function ColorCard({ color, className }: ColorCardProps) {
 
   function addToFavorite(e: React.MouseEvent) {
     e.stopPropagation();
+
+    // check that we're adding to favorites
+    if (!color.is_favorite) {
+      setShowBigHeart(true);
+
+      setTimeout(() => {
+        setShowBigHeart(false);
+      }, 600);
+    }
 
     router.patch(
       route("colors.update", color.id),
@@ -132,6 +142,16 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         >
           <Trash2 size={20} />
         </Button>
+
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Heart
+            size={100}
+            className={cn(
+              "scale-0 fill-red-500 stroke-red-300 stroke-1 transition-transform",
+              showBigHeart && "scale-100",
+            )}
+          />
+        </div>
       </div>
 
       <div className="flex justify-center rounded-b-md border p-3 text-lg uppercase dark:border-gray-700 dark:bg-gray-800">
