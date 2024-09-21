@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useNotification } from "@/hooks/use-notification";
 import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
@@ -16,6 +17,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     () => getTheFullHexColorForm(color.color)!.toUpperCase(),
     [color.color]
   );
+  const notification = useNotification();
 
   async function copyColorToClipboard() {
     await navigator.clipboard.writeText(colorNameUpperCased);
@@ -34,7 +36,21 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   }
 
   function removeColor() {
-    router.delete(route("colors.destroy", color.id));
+    router.delete(route("colors.destroy", color.id), {
+      onSuccess() {
+        notification.show({
+          message: "Deleted color successfully!",
+          state: "success",
+        });
+      },
+
+      onError() {
+        notification.show({
+          message: "Couldn't delete color! Please try again.",
+          state: "error",
+        });
+      },
+    });
   }
 
   return (
