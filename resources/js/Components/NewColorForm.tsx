@@ -5,6 +5,7 @@ import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
 import { containsOnlyHexDigits } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useNotification } from "@/hooks/use-notification";
 
 export default function NewColorForm() {
   const { data, setData, processing, post, reset, errors } = useForm({
@@ -13,6 +14,7 @@ export default function NewColorForm() {
     blue: "",
   });
   const [lengthError, setLengthError] = useState(false);
+  const notification = useNotification();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,8 +30,19 @@ export default function NewColorForm() {
     }
 
     post(route("colors.store"), {
-      onSuccess: () => {
+      onSuccess() {
         reset();
+        notification.show({
+          message: "Created color successfully!",
+          state: "success",
+        });
+      },
+
+      onError() {
+        notification.show({
+          message: "Couldn't create color!",
+          state: "error",
+        });
       },
     });
   }
