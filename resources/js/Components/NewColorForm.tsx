@@ -1,12 +1,14 @@
-import { Plus } from "lucide-react";
+import { Plus, Repeat } from "lucide-react";
 import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
 import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
-import { cn, containsOnlyHexDigits } from "@/lib/utils";
+import { cn, containsOnlyHexDigits, generateRandomHexColor } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNotification } from "@/hooks/use-notification";
 import { useScrollSaver } from "@/hooks/use-scroll-saver";
+import TooltipWrapper from "./TooltipWrapper";
+import SecondaryButton from "./SecondaryButton";
 
 export default function NewColorForm() {
   const { data, setData, processing, post, reset, errors } = useForm({
@@ -69,7 +71,27 @@ export default function NewColorForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex gap-2">
+      <div className="flex items-end gap-2">
+        <TooltipWrapper content="Generate a random color">
+          <div className="grid size-[3.3rem] place-content-center rounded-full">
+            <SecondaryButton
+              type="button"
+              className="grid size-[2.8rem] place-content-center !rounded-full transition-transform hover:rotate-180"
+              aria-label="Generate random color"
+              onClick={() => {
+                const randomColor = generateRandomHexColor().slice(1);
+                setData({
+                  red: randomColor[0] + randomColor[1],
+                  green: randomColor[2] + randomColor[3],
+                  blue: randomColor[4] + randomColor[5],
+                });
+              }}
+            >
+              <Repeat size={17} />
+            </SecondaryButton>
+          </div>
+        </TooltipWrapper>
+
         {(["red", "green", "blue"] as const).map((color) => (
           <div className="flex flex-col items-center gap-2" key={color}>
             <label htmlFor={color} className="text-lg text-muted-foreground">
