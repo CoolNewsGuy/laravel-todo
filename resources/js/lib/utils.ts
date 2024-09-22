@@ -37,3 +37,17 @@ export function getTheFullHexColorForm(hexStr: string): string | null {
 export function containsOnlyHexDigits(str: string): boolean {
   return str.split("").filter((c) => !c.match(/^[0-9A-F]+$/i)).length === 0;
 }
+
+/**
+ * Generate a random 6-digits hex color.
+ */
+export function generateRandomHexColor() {
+  const hexDigits = "0123456789ABCDEF";
+  let result = "#";
+
+  for (let i = 0; i < 6; i++) {
+    result += hexDigits[Math.floor(Math.random() * hexDigits.length)];
+  }
+
+  return result as `#${string}`;
+}
