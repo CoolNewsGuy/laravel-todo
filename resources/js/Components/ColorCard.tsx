@@ -6,6 +6,7 @@ import { router } from "@inertiajs/react";
 import { Check, Copy, Heart, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import TooltipWrapper from "./TooltipWrapper";
+import { useScrollSaver } from "@/hooks/use-scroll-saver";
 
 interface ColorCardProps {
   color: Color;
@@ -21,6 +22,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   const notification = useNotification();
   const [showBigHeart, setShowBigHeart] = useState(false);
   const [addedToFavorite, setAddedToFavorite] = useState(color.is_favorite);
+  const scrollSaver = useScrollSaver();
 
   async function copyColorToClipboard() {
     await navigator.clipboard.writeText(colorNameUpperCased);
@@ -47,10 +49,16 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       setAddedToFavorite(false);
     }
 
+    scrollSaver.saveCurrentPosition();
+
     router.patch(
       route("colors.update", color.id),
       {},
       {
+        onFinish() {
+          scrollSaver.scrollToSavedPosition();
+        },
+
         onSuccess() {
           setAddedToFavorite(!color.is_favorite);
 
@@ -78,7 +86,13 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   function removeColor(e: React.MouseEvent) {
     e.stopPropagation();
 
+    scrollSaver.saveCurrentPosition();
+
     router.delete(route("colors.destroy", color.id), {
+      onFinish() {
+        scrollSaver.scrollToSavedPosition();
+      },
+
       onSuccess() {
         notification.show({
           message: "Deleted color successfully!",
