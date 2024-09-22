@@ -6,6 +6,7 @@ import InputError from "./InputError";
 import { containsOnlyHexDigits } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNotification } from "@/hooks/use-notification";
+import { useScrollSaver } from "@/hooks/use-scroll-saver";
 
 export default function NewColorForm() {
   const { data, setData, processing, post, reset, errors } = useForm({
@@ -15,6 +16,7 @@ export default function NewColorForm() {
   });
   const [lengthError, setLengthError] = useState(false);
   const notification = useNotification();
+  const scrollSaver = useScrollSaver();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,7 +31,13 @@ export default function NewColorForm() {
       return;
     }
 
+    scrollSaver.saveCurrentPosition();
+
     post(route("colors.store"), {
+      onFinish() {
+        scrollSaver.scrollToSavedPosition();
+      },
+
       onSuccess() {
         reset();
         notification.show({
