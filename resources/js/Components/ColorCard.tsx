@@ -19,6 +19,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   );
   const notification = useNotification();
   const [showBigHeart, setShowBigHeart] = useState(false);
+  const [addedToFavorite, setAddedToFavorite] = useState(color.is_favorite);
 
   async function copyColorToClipboard() {
     await navigator.clipboard.writeText(colorNameUpperCased);
@@ -36,10 +37,13 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     // check that we're adding to favorites
     if (!color.is_favorite) {
       setShowBigHeart(true);
+      setAddedToFavorite(true);
 
       setTimeout(() => {
         setShowBigHeart(false);
       }, 600);
+    } else {
+      setAddedToFavorite(false);
     }
 
     router.patch(
@@ -47,6 +51,8 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       {},
       {
         onSuccess() {
+          setAddedToFavorite(!color.is_favorite);
+
           notification.show({
             message: !color.is_favorite
               ? "Added color to favorites!"
@@ -55,6 +61,8 @@ export default function ColorCard({ color, className }: ColorCardProps) {
           });
         },
         onError() {
+          setAddedToFavorite(color.is_favorite);
+
           notification.show({
             message: !color.is_favorite
               ? "Couldn't add color to favorites!"
@@ -118,18 +126,15 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         </Button>
         <Button
           className={cn(
-            "absolute right-4 top-14 size-[2.1rem] border border-gray-400 bg-white text-black transition-colors hover:border-red-400 hover:bg-red-50 hover:text-red-400",
-            color.is_favorite && "border-transparent bg-red-200 text-red-500",
+            "absolute right-4 top-14 size-[2.1rem] border border-gray-400 bg-white text-black transition-colors duration-75 hover:border-red-400 hover:bg-red-50 hover:text-red-400",
+            addedToFavorite && "border-transparent bg-red-200 text-red-500",
           )}
           size={"icon"}
           aria-label={"Add to favorite"}
           title={"Add to favorite"}
           onClick={addToFavorite}
         >
-          <Heart
-            className={cn(color.is_favorite && "fill-red-500")}
-            size={20}
-          />
+          <Heart className={cn(addedToFavorite && "fill-red-500")} size={20} />
         </Button>
         <Button
           className={cn(
