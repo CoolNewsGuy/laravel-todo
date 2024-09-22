@@ -68,52 +68,50 @@ export default function NewColorForm() {
   }, [data]);
 
   return (
-    <form className="flex items-center gap-4" onSubmit={onSubmit}>
-      <div>
-        <div className="flex gap-2">
-          {(["red", "green", "blue"] as const).map((color) => (
-            <div className="flex flex-col items-center gap-2" key={color}>
-              <label htmlFor={color} className="text-lg text-muted-foreground">
-                {color[0].toUpperCase()}
-              </label>
-              <TextInput
-                id={color}
-                className="size-[3.3rem] p-3 text-center text-lg uppercase"
-                maxLength={2}
-                value={data[color]}
-                onChange={(e) => {
-                  setData(color, e.target.value.toUpperCase());
-                }}
-                isFocused={!!errors[color]}
-              />
-            </div>
-          ))}
-
-          <div className="ml-2 flex flex-col items-center gap-2">
-            <label className="invisible text-lg">s</label>
-            <PrimaryButton
-              className="size-[3.3rem] dark:bg-indigo-800 dark:text-white dark:hover:!bg-indigo-900 dark:focus:!bg-indigo-900 dark:active:bg-indigo-900"
-              disabled={processing}
-            >
-              <Plus />
-            </PrimaryButton>
+    <form className="gap flex items-center" onSubmit={onSubmit}>
+      <div className="flex gap-2">
+        {(["red", "green", "blue"] as const).map((color) => (
+          <div className="flex flex-col items-center gap-2" key={color}>
+            <label htmlFor={color} className="text-lg text-muted-foreground">
+              {color[0].toUpperCase()}
+            </label>
+            <TextInput
+              id={color}
+              className="size-[3.3rem] p-3 text-center text-lg uppercase"
+              maxLength={2}
+              value={data[color]}
+              onChange={(e) => {
+                setData(color, e.target.value.toUpperCase());
+              }}
+              isFocused={!!errors[color]}
+            />
           </div>
+        ))}
+
+        <div className="ml-2 flex flex-col items-center gap-2">
+          <label className="invisible text-lg">s</label>
+          <PrimaryButton
+            className="size-[3.3rem] dark:bg-indigo-800 dark:text-white dark:hover:!bg-indigo-900 dark:focus:!bg-indigo-900 dark:active:bg-indigo-900"
+            disabled={processing}
+          >
+            <Plus />
+          </PrimaryButton>
         </div>
-
-        {!containsOnlyHexDigits(`${data.red}${data.green}${data.blue}`) && (
-          <InputError
-            message="Invalid hex digits."
-            className="mt-2 text-[0.9rem] font-bold"
-          />
-        )}
-
-        {lengthError && (
-          <InputError
-            message="All fields must be either of length 1 or 2."
-            className="text-[0.9rem] font-bold"
-          />
-        )}
       </div>
+
+      {!containsOnlyHexDigits(`${data.red}${data.green}${data.blue}`) && (
+        <InputError
+          message="Invalid hex digits."
+          className="mt-2 text-[0.9rem] font-bold"
+        />
+      )}
+
+      {lengthError && (
+        <InputError
+          message="All fields must be either of length 1 or 2."
+          className="text-[0.9rem] font-bold"
+        />
+      )}
     </form>
   );
 }
