@@ -3,7 +3,7 @@ import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
 import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
-import { containsOnlyHexDigits } from "@/lib/utils";
+import { cn, containsOnlyHexDigits } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNotification } from "@/hooks/use-notification";
 import { useScrollSaver } from "@/hooks/use-scroll-saver";
@@ -68,7 +68,7 @@ export default function NewColorForm() {
   }, [data]);
 
   return (
-    <form className="gap flex items-center" onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <div className="flex gap-2">
         {(["red", "green", "blue"] as const).map((color) => (
           <div className="flex flex-col items-center gap-2" key={color}>
@@ -109,7 +109,11 @@ export default function NewColorForm() {
       {lengthError && (
         <InputError
           message="All fields must be either of length 1 or 2."
-          className="text-[0.9rem] font-bold"
+          className={cn(
+            "text-[0.9rem] font-bold",
+            containsOnlyHexDigits(`${data.red}${data.green}${data.blue}`) &&
+              "mt-2",
+          )}
         />
       )}
     </form>
