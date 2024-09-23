@@ -103,15 +103,18 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     <TooltipWrapper content="Copy color">
       <div
         className={cn(
-          "cursor-pointer overflow-hidden rounded-md shadow-md transition-transform hover:scale-105",
+          "cursor-pointer rounded-md shadow-md transition-transform hover:scale-105",
           className,
         )}
         onDoubleClick={addToFavorite}
         onClick={copyColorToClipboard}
       >
         <div
-          className="relative h-[13rem]"
-          style={{ backgroundColor: color.color }}
+          className="relative h-[13rem] rounded-t-md"
+          style={{
+            backgroundColor: color.color,
+            boxShadow: `0 0 12px ${color.color}`,
+          }}
         >
           <Button
             className={cn(
