@@ -51,3 +51,14 @@ export function generateRandomHexColor() {
 
   return result as `#${string}`;
 }
+
+export function doAllColorChannelsHaveTheSameLength(data: {
+  red: string;
+  green: string;
+  blue: string;
+}) {
+  return (
+    data.red.length === data.green.length &&
+    data.red.length === data.blue.length
+  );
+}
