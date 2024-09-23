@@ -57,6 +57,15 @@ export default function NewColorForm() {
     });
   }
 
+  function getRandomColor() {
+    const randomColor = generateRandomHexColor().slice(1);
+    setData({
+      red: randomColor[0] + randomColor[1],
+      green: randomColor[2] + randomColor[3],
+      blue: randomColor[4] + randomColor[5],
+    });
+  }
+
   useEffect(() => {
     const values = Object.values(data);
 
@@ -73,25 +82,7 @@ export default function NewColorForm() {
     <form onSubmit={onSubmit} className="w-[235px]">
       <div className="flex flex-col gap-3">
         <div className="flex items-end gap-2">
-          <TooltipWrapper content="Generate a random color">
-            <div className="grid size-[3.3rem] place-content-center rounded-full">
-              <SecondaryButton
-                type="button"
-                className="grid size-[2.8rem] place-content-center !rounded-full transition-transform hover:rotate-180"
-                aria-label="Generate random color"
-                onClick={() => {
-                  const randomColor = generateRandomHexColor().slice(1);
-                  setData({
-                    red: randomColor[0] + randomColor[1],
-                    green: randomColor[2] + randomColor[3],
-                    blue: randomColor[4] + randomColor[5],
-                  });
-                }}
-              >
-                <Dices size={22} />
-              </SecondaryButton>
-            </div>
-          </TooltipWrapper>
+          <RandomColorButton onClick={getRandomColor} />
 
           {(["red", "green", "blue"] as const).map((color) => (
             <div className="flex flex-col items-center gap-2" key={color}>
@@ -153,6 +144,27 @@ function ColorPreviewBox({ color }: { color: string }) {
         )}
         style={{ backgroundColor: color }}
       ></div>
+    </TooltipWrapper>
+  );
+}
+
+function RandomColorButton({
+  onClick,
+}: {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}) {
+  return (
+    <TooltipWrapper content="Generate a random color">
+      <div className="grid size-[3.3rem] place-content-center rounded-full">
+        <SecondaryButton
+          type="button"
+          className="grid size-[2.8rem] place-content-center !rounded-full transition-transform hover:rotate-180"
+          aria-label="Generate random color"
+          onClick={onClick}
+        >
+          <Dices size={22} />
+        </SecondaryButton>
+      </div>
     </TooltipWrapper>
   );
 }
