@@ -6,6 +6,7 @@ import InputError from "./InputError";
 import {
   cn,
   containsOnlyHexDigits,
+  doAllColorChannelsHaveTheSameLength,
   generateRandomHexColor,
   getTheFullHexColorForm,
 } from "@/lib/utils";
@@ -20,8 +21,9 @@ export default function NewColorForm() {
     green: "",
     blue: "",
   });
-  const color = `#${data.red}${data.green}${data.blue}` as const;
-  const invalidDigitError = !containsOnlyHexDigits(color.slice(1));
+  const invalidDigitError = !containsOnlyHexDigits(
+    (`#${data.red}${data.green}${data.blue}` as const).slice(1),
+  );
   const [lengthError, setLengthError] = useState(false);
   const notification = useNotification();
 
@@ -124,7 +126,7 @@ export default function NewColorForm() {
           )}
         </div>
 
-        <ColorPreviewBox color={color} />
+        <ColorPreviewBox data={data} />
 
         <PrimaryButton
           className="h-[3.3rem] place-content-center !text-base capitalize tracking-wide dark:bg-indigo-800 dark:text-white dark:hover:!bg-indigo-900 dark:focus:!bg-indigo-900 dark:active:bg-indigo-900"
@@ -137,17 +139,25 @@ export default function NewColorForm() {
   );
 }
 
-function ColorPreviewBox({ color }: { color: string }) {
+function ColorPreviewBox({
+  data,
+}: {
+  data: { red: string; green: string; blue: string };
+}) {
+  const color = `#${data.red}${data.green}${data.blue}` as const;
+  const isColorValid =
+    doAllColorChannelsHaveTheSameLength(data) && getTheFullHexColorForm(color);
+
   return (
     <TooltipWrapper content="Color preview">
       <div
         className={cn(
           "size-[235px] rounded-md border-2 border-indigo-800",
-          getTheFullHexColorForm(color) && "border-none",
+          isColorValid && "border-none",
         )}
         style={{
-          backgroundColor: color,
-          boxShadow: `0 0 12px ${color}`,
+          backgroundColor: isColorValid ? color : "transparent",
+          boxShadow: isColorValid ? `0 0 12px ${color}` : "none",
         }}
       ></div>
     </TooltipWrapper>
