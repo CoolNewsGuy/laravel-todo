@@ -84,20 +84,23 @@ export default function NewColorForm() {
         <div className="flex items-end gap-2">
           <RandomColorButton onClick={getRandomColor} />
 
-          {(["red", "green", "blue"] as const).map((color) => (
-            <div className="flex flex-col items-center gap-2" key={color}>
-              <label htmlFor={color} className="text-lg text-muted-foreground">
-                {color[0].toUpperCase()}
+          {(["red", "green", "blue"] as const).map((channel) => (
+            <div className="flex flex-col items-center gap-2" key={channel}>
+              <label
+                htmlFor={channel}
+                className="text-lg text-muted-foreground"
+              >
+                {channel[0].toUpperCase()}
               </label>
               <TextInput
-                id={color}
+                id={channel}
                 className="size-[3.3rem] p-3 text-center text-lg uppercase"
                 maxLength={2}
-                value={data[color]}
+                value={data[channel]}
                 onChange={(e) => {
-                  setData(color, e.target.value.toUpperCase());
+                  setData(channel, e.target.value.toUpperCase());
                 }}
-                isFocused={!!errors[color]}
+                isFocused={!!errors[channel]}
               />
             </div>
           ))}
