@@ -142,7 +142,10 @@ function ColorPreviewBox({ color }: { color: string }) {
           "size-[235px] rounded-md border-2 border-indigo-800",
           getTheFullHexColorForm(color) && "border-none",
         )}
-        style={{ backgroundColor: color }}
+        style={{
+          backgroundColor: color,
+          boxShadow: `0 0 12px ${color}`,
+        }}
       ></div>
     </TooltipWrapper>
   );
