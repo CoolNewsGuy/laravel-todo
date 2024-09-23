@@ -1,4 +1,4 @@
-import { Plus, Repeat } from "lucide-react";
+import { Dices, Plus } from "lucide-react";
 import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
 import { useForm } from "@inertiajs/react";
@@ -80,7 +80,7 @@ export default function NewColorForm() {
                 });
               }}
             >
-              <Repeat size={17} />
+              <Dices size={22} />
             </SecondaryButton>
           </div>
         </TooltipWrapper>
