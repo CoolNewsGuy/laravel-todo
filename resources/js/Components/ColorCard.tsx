@@ -110,7 +110,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         onClick={copyColorToClipboard}
       >
         <div
-          className="relative h-[13rem] rounded-t-md"
+          className="relative h-[13rem] select-none rounded-t-md"
           style={{
             backgroundColor: color.color,
             boxShadow: `0 0 12px ${color.color}`,
