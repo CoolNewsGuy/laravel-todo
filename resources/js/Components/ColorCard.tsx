@@ -169,7 +169,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
             <Heart
               size={100}
               className={cn(
-                "scale-0 fill-red-500 stroke-red-300 stroke-1 transition-transform",
+                "scale-0 fill-red-500 stroke-red-300 stroke-1 drop-shadow-lg transition-transform",
                 showBigHeart && "scale-100",
               )}
             />
