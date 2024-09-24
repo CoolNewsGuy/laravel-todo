@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
@@ -63,6 +64,9 @@ Route::post('/add-sample-colors', function () {
   $user->has_added_color = true;
   $user->save();
 })
+  ->middleware(['auth', 'verified']);
+
+Route::resource('comments', CommentController::class)
   ->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';
