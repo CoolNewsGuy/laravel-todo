@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Color;
 use App\Models\Comment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Redirect;
 
 class CommentController extends Controller
 {
@@ -26,9 +29,19 @@ class CommentController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(Request $request, Color $color): RedirectResponse
   {
-    //
+    $validated = $request->validate([
+      'content' => 'required|string'
+    ]);
+
+    $comment = new Comment();
+    $comment->content = $validated['content'];
+    $comment->user_id = $request->user()->id;
+    $comment->color_id = $color->id;
+    $comment->save();
+
+    return Redirect::route('colors.index');
   }
 
   /**

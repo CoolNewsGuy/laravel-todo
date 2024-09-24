@@ -4,7 +4,7 @@ import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
 import { router } from "@inertiajs/react";
 import { Check, Copy, Heart, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import TooltipWrapper from "./TooltipWrapper";
 import CommentsSection from "./CommentsSection";
 
@@ -12,6 +12,8 @@ interface ColorCardProps {
   color: Color;
   className?: string;
 }
+
+export const ColorContext = createContext<Color | null>(null);
 
 export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
@@ -173,7 +175,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
         </div>
       </TooltipWrapper>
 
-      <CommentsSection  />
+      <ColorContext.Provider value={color}>
+        <CommentsSection />
+      </ColorContext.Provider>
     </div>
   );
 }

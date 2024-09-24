@@ -69,4 +69,8 @@ Route::post('/add-sample-colors', function () {
 Route::resource('comments', CommentController::class)
   ->middleware(['auth', 'verified']);
 
+Route::post('colors/{color}/comments', [CommentController::class, 'store'])
+  ->middleware(['auth', 'verified'])
+  ->name('color.comments');
+
 require __DIR__ . '/auth.php';
