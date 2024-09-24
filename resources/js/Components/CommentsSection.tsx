@@ -5,37 +5,45 @@ import PrimaryButton from "./PrimaryButton";
 import { useForm } from "@inertiajs/react";
 import InputError from "./InputError";
 import { useNotification } from "@/hooks/use-notification";
-import { useContext, useEffect } from "react";
+import { Fragment, useContext } from "react";
 import { ColorContext } from "./ColorCard";
+import { Comment as CommentType } from "@/types";
 
 export default function CommentsSection() {
+  const comments = useContext(ColorContext)?.comments;
+
   return (
     <div className="flex flex-col items-center space-y-4 rounded-b-md border py-3 dark:border-gray-700 dark:bg-gray-800">
-      {/* <Comment
-        commentContent={
-          "This is an amazing color. You are truly a colors genius! Looking forward for more colors in the future!"
-        }
-      />
-      <CommentsDivider className="w-full border-gray-300 dark:border-gray-700" />
-      <Comment commentContent="This is so good" />
-      <CommentsDivider className="w-full border-gray-300 dark:border-gray-700" />
-      <Comment commentContent="Keep it up! I love your colors. They're so good" /> */}
+      {comments &&
+        comments.map((comment, i) => (
+          <Fragment key={comment.id}>
+            <Comment comment={comment} />
+
+            {i !== comments.length - 1 && (
+              <CommentsDivider className="w-full border-gray-300 dark:border-gray-700" />
+            )}
+          </Fragment>
+        ))}
+
       <NewCommentForm />
     </div>
   );
 }
 
-function Comment({ commentContent }: { commentContent: React.ReactNode }) {
+function Comment({ comment }: { comment: CommentType }) {
   return (
     <div className="w-[90%]">
       <div className="flex gap-2">
-        <CommentUser userName="Aymen Bahmed" createdAt={new Date()} />
+        <CommentUser
+          userName={comment.user.name}
+          createdAt={new Date(comment.created_at)}
+        />
       </div>
 
-      <CommentContent className="mt-4 p-1">{commentContent}</CommentContent>
+      <CommentContent className="mt-4 p-1">{comment.content}</CommentContent>
 
       <div className="mt-1">
-        <CommentLikeButton likes={20} />
+        <CommentLikeButton likes={comment.likes} />
       </div>
     </div>
   );
