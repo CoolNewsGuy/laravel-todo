@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Color whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Color whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Color whereUserId($value)
+ * @property bool $is_favorite
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Color whereIsFavorite($value)
  * @mixin \Eloquent
  */
 class Color extends Model

@@ -33,6 +33,10 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property bool $has_added_color
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Color> $colors
+ * @property-read int|null $colors_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereHasAddedColor($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
