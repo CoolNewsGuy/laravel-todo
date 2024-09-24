@@ -23,7 +23,7 @@ export interface Comment {
   content: string;
   likes: number;
   color_id: number;
-  user_id: number;
+  user: User;
   created_at: string;
   updated_at: string;
 }
