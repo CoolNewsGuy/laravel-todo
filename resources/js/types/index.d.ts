@@ -15,6 +15,7 @@ export interface Color {
   user_id: number;
   created_at: string;
   updated_at: string;
+  comments: Comment[];
 }
 
 export interface Comment {
