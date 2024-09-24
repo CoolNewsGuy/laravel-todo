@@ -17,7 +17,7 @@ class ColorController extends Controller
   public function index()
   {
     return Inertia::render('Colors/Index', [
-      'colors' => DB::table('colors')->orderBy('id')->get()
+      'colors' => Color::with('comments.user')->orderBy('id')->get(),
     ]);
   }
 
