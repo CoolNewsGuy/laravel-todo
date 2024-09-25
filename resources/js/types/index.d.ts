@@ -18,10 +18,15 @@ export interface Color {
   comments: Comment[];
 }
 
+export interface Like {
+  user_id: number;
+  comment_id: number;
+}
+
 export interface Comment {
   id: number;
   content: string;
-  likes: unknown[];
+  likes: Like[];
   color_id: number;
   user: User;
   created_at: string;
