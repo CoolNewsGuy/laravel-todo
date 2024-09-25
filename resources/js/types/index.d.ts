@@ -21,7 +21,7 @@ export interface Color {
 export interface Comment {
   id: number;
   content: string;
-  likes: number;
+  likes: unknown[];
   color_id: number;
   user: User;
   created_at: string;
