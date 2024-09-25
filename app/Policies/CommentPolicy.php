@@ -41,6 +41,14 @@ class CommentPolicy
   }
 
   /**
+   * Determine whether the user can update the comment's likes.
+   */
+  public function updateLikes(User $user, Comment $comment): bool
+  {
+    return $comment->user()->isNot($user);
+  }
+
+  /**
    * Determine whether the user can delete the model.
    */
   public function delete(User $user, Comment $comment): bool
