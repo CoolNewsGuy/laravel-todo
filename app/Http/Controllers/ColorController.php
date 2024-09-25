@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
-use DB;
 use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class ColorController extends Controller
   public function index()
   {
     return Inertia::render('Colors/Index', [
-      'colors' => Color::with('comments.user')->orderBy('id')->get(),
+      'colors' => Color::with(['comments.user', 'comments.likes'])->orderBy('id')->get(),
     ]);
   }
 
