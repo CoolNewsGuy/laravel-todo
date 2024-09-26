@@ -1,3 +1,4 @@
+import AvatarPicture from "@/Components/AvatarPicture";
 import InputError from "@/Components/InputError";
 import { useForm, usePage } from "@inertiajs/react";
 import { flushSync } from "react-dom";
@@ -28,7 +29,7 @@ export default function UploadImagePictureForm() {
         htmlFor="image"
         className="block size-16 cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800"
       >
-        {user.image && <img src={user.image} alt="profile picture" />}
+        {user.image && <AvatarPicture image={user.image} />}
       </label>
       <input
         type="file"
