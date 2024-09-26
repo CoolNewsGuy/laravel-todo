@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNotification } from "@/hooks/use-notification";
 import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { Check, Copy, Heart, Trash2 } from "lucide-react";
 import { createContext, useMemo, useState } from "react";
 import TooltipWrapper from "./TooltipWrapper";
@@ -22,8 +22,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     [color.color],
   );
   const notification = useNotification();
-  const [showBigHeart, setShowBigHeart] = useState(false);
+  const [shouldShowBigHeart, setShouldShowBigHeart] = useState(false);
   const [addedToFavorite, setAddedToFavorite] = useState(color.is_favorite);
+  const { auth } = usePage().props;
 
   async function copyColorToClipboard() {
     await navigator.clipboard.writeText(colorNameUpperCased);
@@ -35,17 +36,21 @@ export default function ColorCard({ color, className }: ColorCardProps) {
     }, 500);
   }
 
+  function showBigHeart() {
+    setShouldShowBigHeart(true);
+
+    setTimeout(() => {
+      setShouldShowBigHeart(false);
+    }, 600);
+  }
+
   function addToFavorite(e: React.MouseEvent) {
     e.stopPropagation();
 
     // check that we're adding to favorites
     if (!color.is_favorite) {
-      setShowBigHeart(true);
+      showBigHeart();
       setAddedToFavorite(true);
-
-      setTimeout(() => {
-        setShowBigHeart(false);
-      }, 600);
     } else {
       setAddedToFavorite(false);
     }
@@ -107,7 +112,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       <TooltipWrapper content="Copy color">
         <div
           className={cn("cursor-pointer", className)}
-          onDoubleClick={addToFavorite}
+          onDoubleClick={
+            auth.user.id === color.user_id ? addToFavorite : showBigHeart
+          }
           onClick={copyColorToClipboard}
         >
           <div
@@ -133,38 +140,49 @@ export default function ColorCard({ color, className }: ColorCardProps) {
                 <Copy className="stroke-black" size={17} />
               )}
             </Button>
-            <Button
+
+            <div
               className={cn(
-                "absolute right-4 top-14 size-[2.1rem] border border-gray-400 bg-white text-black transition-colors duration-75 hover:border-red-400 hover:bg-red-50 hover:text-red-400",
-                addedToFavorite && "border-transparent bg-red-200 text-red-500",
+                "contents",
+                auth.user.id !== color.user_id && "hidden",
               )}
-              size={"icon"}
-              aria-label={"Add to favorite"}
-              title={"Add to favorite"}
-              onClick={addToFavorite}
             >
-              <Heart
-                className={cn(addedToFavorite && "fill-red-500")}
-                size={20}
-              />
-            </Button>
-            <Button
-              className={cn(
-                "absolute right-4 top-24 size-[2.1rem] bg-red-600 text-white transition-colors hover:bg-red-700 active:bg-red-800",
-              )}
-              size={"icon"}
-              aria-label={"Remove color"}
-              title={"Remove color"}
-              onClick={removeColor}
-            >
-              <Trash2 size={20} />
-            </Button>
+              <Button
+                className={cn(
+                  "absolute right-4 top-14 size-[2.1rem] border border-gray-400 bg-white text-black transition-colors duration-75 hover:border-red-400 hover:bg-red-50 hover:text-red-400",
+                  addedToFavorite &&
+                    "border-transparent bg-red-200 text-red-500",
+                )}
+                size={"icon"}
+                aria-label={"Add to favorite"}
+                title={"Add to favorite"}
+                onClick={addToFavorite}
+              >
+                <Heart
+                  className={cn(addedToFavorite && "fill-red-500")}
+                  size={20}
+                />
+              </Button>
+
+              <Button
+                className={cn(
+                  "absolute right-4 top-24 size-[2.1rem] bg-red-600 text-white transition-colors hover:bg-red-700 active:bg-red-800",
+                )}
+                size={"icon"}
+                aria-label={"Remove color"}
+                title={"Remove color"}
+                onClick={removeColor}
+              >
+                <Trash2 size={20} />
+              </Button>
+            </div>
+
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Heart
                 size={100}
                 className={cn(
                   "scale-0 fill-red-500 stroke-red-300 stroke-1 drop-shadow-lg transition-transform",
-                  showBigHeart && "scale-100",
+                  shouldShowBigHeart && "scale-100",
                 )}
               />
             </div>
