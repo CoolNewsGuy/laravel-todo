@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Heart, Plus } from "lucide-react";
+import { EllipsisVertical, Heart, Plus } from "lucide-react";
 import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import { Link, useForm, usePage } from "@inertiajs/react";
@@ -9,6 +9,7 @@ import { Fragment, useContext, useMemo } from "react";
 import { ColorContext } from "./ColorCard";
 import { Comment as CommentType } from "@/types";
 import AvatarPicture from "./AvatarPicture";
+import Dropdown from "./Dropdown";
 
 export default function CommentsSection() {
   const comments = useContext(ColorContext)?.comments;
@@ -32,6 +33,9 @@ export default function CommentsSection() {
 }
 
 function Comment({ comment }: { comment: CommentType }) {
+  const user = usePage().props.auth.user;
+  const color = useContext(ColorContext);
+
   return (
     <div className="w-[90%]">
       <div className="flex gap-2">
@@ -44,10 +48,38 @@ function Comment({ comment }: { comment: CommentType }) {
 
       <CommentContent className="mt-4 p-1">{comment.content}</CommentContent>
 
-      <div className="mt-1">
+      <div className="mt-5 flex items-center gap-3">
+        {(user.id === comment.user.id ||
+          color?.user_id !== comment.user.id) && (
+          <CommentOptions commentId={comment.id} />
+        )}
         <CommentLikeButton comment={comment} />
       </div>
     </div>
+  );
+}
+
+function CommentOptions({ commentId }: { commentId: number }) {
+  return (
+    <Dropdown>
+      <Dropdown.Trigger>
+        <div className="h">
+          <button>
+            <EllipsisVertical size={20} />
+          </button>
+        </div>
+      </Dropdown.Trigger>
+      <Dropdown.Content align="left">
+        <Dropdown.Link
+          href={route("comments.destroy", commentId)}
+          method="delete"
+          preserveScroll
+          as="button"
+        >
+          Delete comment
+        </Dropdown.Link>
+      </Dropdown.Content>
+    </Dropdown>
   );
 }
 

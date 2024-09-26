@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Color;
 use App\Models\Comment;
+use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Redirect;
@@ -71,8 +72,12 @@ class CommentController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Comment $comment)
+  public function destroy(Comment $comment): RedirectResponse
   {
-    //
+    Gate::authorize('delete', $comment);
+
+    $comment->delete();
+
+    return Redirect::route('colors.index');
   }
 }
