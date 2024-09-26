@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use File;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Log;
 
 class ProfileController extends Controller
 {
@@ -35,6 +37,27 @@ class ProfileController extends Controller
       $request->user()->email_verified_at = null;
     }
 
+    $request->user()->save();
+
+    return Redirect::route('profile.edit');
+  }
+
+  /**
+   * Upload profile picture
+   */
+  public function upload_profile_picture(Request $request): RedirectResponse
+  {
+    $request->validate([
+      'image' => 'required|image'
+    ]);
+
+    if ($request->user()->image) {
+      File::delete(public_path($request->user()->image));
+    }
+
+    $imageName = time() . '.' . $request->image->extension();
+    $request->image->move(public_path('images'), $imageName);
+    $request->user()->image = 'images/' . $imageName;
     $request->user()->save();
 
     return Redirect::route('profile.edit');

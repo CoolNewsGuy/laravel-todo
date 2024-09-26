@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
+import UploadImagePictureForm from "./UploadImagePictureForm";
 
 export default function UpdateProfileInformation({
   mustVerifyEmail,
@@ -40,6 +41,10 @@ export default function UpdateProfileInformation({
           Update your account's profile information and email address.
         </p>
       </header>
+
+      <div className="mt-6">
+        <UploadImagePictureForm />
+      </div>
 
       <form onSubmit={submit} className="mt-6 space-y-6">
         <div>
