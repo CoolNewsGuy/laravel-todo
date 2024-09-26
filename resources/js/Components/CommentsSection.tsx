@@ -2,10 +2,10 @@ import { cn } from "@/lib/utils";
 import { Heart, Plus } from "lucide-react";
 import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
-import { useForm } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import InputError from "./InputError";
 import { useNotification } from "@/hooks/use-notification";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useMemo } from "react";
 import { ColorContext } from "./ColorCard";
 import { Comment as CommentType } from "@/types";
 
@@ -43,7 +43,7 @@ function Comment({ comment }: { comment: CommentType }) {
       <CommentContent className="mt-4 p-1">{comment.content}</CommentContent>
 
       <div className="mt-1">
-        <CommentLikeButton likes={comment.likes} />
+        <CommentLikeButton comment={comment} />
       </div>
     </div>
   );
@@ -94,26 +94,46 @@ function CommentContent({
 }
 
 function CommentLikeButton({
-  likes,
+  comment,
   className,
 }: {
-  likes: number;
+  comment: CommentType;
   className?: string;
 }) {
-  return (
-    <button
-      aria-label="like comment"
-      className={cn(
-        "flex items-center text-muted-foreground transition-colors hover:text-red-500",
-        className,
-      )}
-    >
-      <div className="grid size-8 place-content-center rounded-full group-hover:bg-red-600/20">
-        <Heart size={20} />
-      </div>
+  const { auth } = usePage().props;
+  const isCommentLikedByUser = useMemo(
+    () => comment.likes.some(({ user_id }) => auth.user.id === user_id),
+    [comment.likes],
+  );
 
-      <p>{likes}</p>
-    </button>
+  return (
+    <Link
+      href={route("comment.like", comment.id)}
+      method="post"
+      preserveScroll
+      as="div"
+      disabled={auth.user.id === comment.user.id}
+    >
+      <button
+        aria-label="like comment"
+        className={cn(
+          "flex select-none items-center text-muted-foreground transition-colors",
+          auth.user.id !== comment.user.id && "hover:text-red-500",
+          auth.user.id === comment.user.id && "cursor-default opacity-50",
+          isCommentLikedByUser && "text-red-500",
+          className,
+        )}
+      >
+        <div className="grid size-8 place-content-center rounded-full group-hover:bg-red-600/20">
+          <Heart
+            size={20}
+            className={cn(isCommentLikedByUser && "fill-red-500")}
+          />
+        </div>
+
+        <p>{comment.likes.length}</p>
+      </button>
+    </Link>
   );
 }
 

@@ -3,8 +3,10 @@
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -72,5 +74,29 @@ Route::resource('comments', CommentController::class)
 Route::post('colors/{color}/comments', [CommentController::class, 'store'])
   ->middleware(['auth', 'verified'])
   ->name('color.comments');
+
+Route::post('/comments/{comment}/like', function (Request $request, Comment $comment) {
+  if ($comment->user->id === $request->user()->id) {
+    return redirect(route('colors.index'));
+  }
+
+  $likes = DB::table('likes');
+  $existing_like = $likes
+    ->where('user_id', $request->user()->id)
+    ->where('comment_id', $comment->id);
+
+  if ($existing_like->exists()) {
+    $existing_like->delete();
+
+    return;
+  }
+
+  $likes->insert([
+    'comment_id' => $comment->id,
+    'user_id' => Auth::user()->id
+  ]);
+})
+  ->middleware(['auth'])
+  ->name('comment.like');
 
 require __DIR__ . '/auth.php';
