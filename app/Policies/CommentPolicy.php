@@ -53,7 +53,7 @@ class CommentPolicy
    */
   public function delete(User $user, Comment $comment): bool
   {
-    //
+    return $comment->user->is($user) || $comment->color->user_id === $user->id;
   }
 
   /**
