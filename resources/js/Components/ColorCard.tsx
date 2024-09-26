@@ -17,7 +17,7 @@ export const ColorContext = createContext<Color | null>(null);
 
 export default function ColorCard({ color, className }: ColorCardProps) {
   const [copied, setCopied] = useState(false);
-  let colorNameUpperCased = useMemo(
+  const colorNameUpperCased = useMemo(
     () => getTheFullHexColorForm(color.color)!.toUpperCase(),
     [color.color],
   );
