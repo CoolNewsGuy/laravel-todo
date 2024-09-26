@@ -16,6 +16,10 @@ export default function CommentsSection() {
 
   return (
     <div className="flex flex-col items-center space-y-4 rounded-b-md border py-3 dark:border-gray-700 dark:bg-gray-800">
+      <NewCommentForm />
+
+      <CommentsDivider className="w-full border-gray-300 dark:border-gray-700" />
+
       {comments &&
         comments.map((comment, i) => (
           <Fragment key={comment.id}>
@@ -26,8 +30,6 @@ export default function CommentsSection() {
             )}
           </Fragment>
         ))}
-
-      <NewCommentForm />
     </div>
   );
 }
@@ -176,7 +178,7 @@ function CommentLikeButton({
 }
 
 function NewCommentForm() {
-  const { data, setData, errors, setError, post, reset, get } = useForm({
+  const { data, setData, errors, setError, post, reset } = useForm({
     content: "",
   });
   const notification = useNotification();
@@ -195,6 +197,8 @@ function NewCommentForm() {
       preserveScroll: true,
 
       onSuccess: () => {
+        reset();
+
         notification.show({
           message: "Added comment successfully!",
           state: "success",
