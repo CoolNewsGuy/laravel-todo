@@ -3,7 +3,7 @@ import { useNotification } from "@/hooks/use-notification";
 import { cn, getTheFullHexColorForm } from "@/lib/utils";
 import { Color } from "@/types";
 import { router, usePage } from "@inertiajs/react";
-import { Check, Copy, Heart, Trash2 } from "lucide-react";
+import { Check, Copy, Heart, MessageCircle, Trash2 } from "lucide-react";
 import { createContext, useMemo, useState } from "react";
 import TooltipWrapper from "./TooltipWrapper";
 import CommentsSection from "./CommentsSection";
@@ -24,6 +24,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   const notification = useNotification();
   const [shouldShowBigHeart, setShouldShowBigHeart] = useState(false);
   const [addedToFavorite, setAddedToFavorite] = useState(color.is_favorite);
+  const [showComments, setShowComments] = useState(false);
   const { auth } = usePage().props;
 
   async function copyColorToClipboard() {
@@ -108,7 +109,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   }
 
   return (
-    <div className="rounded-md shadow-md transition-transform hover:scale-105">
+    <div className="rounded-md shadow-md">
       <TooltipWrapper content="Copy color">
         <div
           className={cn("cursor-pointer", className)}
@@ -187,14 +188,35 @@ export default function ColorCard({ color, className }: ColorCardProps) {
               />
             </div>
           </div>
-          <div className="flex justify-center border p-3 text-lg uppercase dark:border-gray-700 dark:bg-gray-800">
+          <div
+            className={cn(
+              "relative flex justify-center border p-3 text-lg dark:border-gray-700 dark:bg-gray-800",
+              !showComments && "rounded-b-md",
+            )}
+          >
+            <TooltipWrapper content="Comments">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                <button
+                  className="flex items-center gap-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    setShowComments(!showComments);
+                  }}
+                >
+                  <MessageCircle size={20} />
+                  <span>{color.comments.length ?? "2"}</span>
+                </button>
+              </div>
+            </TooltipWrapper>
+
             {colorNameUpperCased}
           </div>
         </div>
       </TooltipWrapper>
 
       <ColorContext.Provider value={color}>
-        <CommentsSection />
+        {showComments && <CommentsSection />}
       </ColorContext.Provider>
     </div>
   );
