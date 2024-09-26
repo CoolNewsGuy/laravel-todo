@@ -4,6 +4,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  image: string | null;
   email_verified_at?: string;
   has_added_color: boolean;
 }
