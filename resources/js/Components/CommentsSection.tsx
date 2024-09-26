@@ -8,6 +8,7 @@ import { useNotification } from "@/hooks/use-notification";
 import { Fragment, useContext, useMemo } from "react";
 import { ColorContext } from "./ColorCard";
 import { Comment as CommentType } from "@/types";
+import AvatarPicture from "./AvatarPicture";
 
 export default function CommentsSection() {
   const comments = useContext(ColorContext)?.comments;
@@ -37,6 +38,7 @@ function Comment({ comment }: { comment: CommentType }) {
         <CommentUser
           userName={comment.user.name}
           createdAt={new Date(comment.created_at)}
+          image={comment.user.image}
         />
       </div>
 
@@ -58,13 +60,17 @@ function CommentsDivider({ className }: { className?: string }) {
 function CommentUser({
   userName,
   createdAt,
+  image,
 }: {
   userName: string;
   createdAt: Date;
+  image: string | null;
 }) {
   return (
     <>
-      <div className="size-12 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800"></div>
+      <div className="size-12 overflow-hidden rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800">
+        {image && <AvatarPicture image={image} />}
+      </div>
 
       <div className="flex flex-col justify-around">
         <h2 className="text-sm">{userName}</h2>
