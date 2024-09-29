@@ -7,6 +7,7 @@ import { Check, Copy, Heart, MessageCircle, Trash2 } from "lucide-react";
 import { createContext, useMemo, useState } from "react";
 import TooltipWrapper from "./TooltipWrapper";
 import CommentsSection from "./CommentsSection";
+import { useActiveCardContext } from "@/contexts/active-card-context";
 
 interface ColorCardProps {
   color: Color;
@@ -25,6 +26,7 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   const [shouldShowBigHeart, setShouldShowBigHeart] = useState(false);
   const [addedToFavorite, setAddedToFavorite] = useState(color.is_favorite);
   const [showComments, setShowComments] = useState(false);
+  const activeCard = useActiveCardContext();
   const { auth } = usePage().props;
 
   async function copyColorToClipboard() {
@@ -109,13 +111,15 @@ export default function ColorCard({ color, className }: ColorCardProps) {
   }
 
   return (
-    <div className="rounded-md shadow-md">
+    <div
+      className={cn(
+        "relative rounded-md shadow-md transition-transform",
+        showComments && "z-10 scale-105",
+      )}
+    >
       <TooltipWrapper content="Copy color">
         <div
           className={cn("cursor-pointer", className)}
-          onDoubleClick={
-            auth.user.id === color.user_id ? addToFavorite : showBigHeart
-          }
           onClick={copyColorToClipboard}
         >
           <div
@@ -124,6 +128,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
               backgroundColor: color.color,
               boxShadow: `0 0 12px ${color.color}`,
             }}
+            onDoubleClick={
+              auth.user.id === color.user_id ? addToFavorite : showBigHeart
+            }
           >
             <Button
               className={cn(
@@ -216,7 +223,9 @@ export default function ColorCard({ color, className }: ColorCardProps) {
       </TooltipWrapper>
 
       <ColorContext.Provider value={color}>
-        {showComments && <CommentsSection />}
+        <div className="absolute z-[1] w-full">
+          {showComments && <CommentsSection />}
+        </div>
       </ColorContext.Provider>
     </div>
   );
