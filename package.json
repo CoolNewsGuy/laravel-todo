@@ -3,8 +3,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noCheck && vite build && vite build --ssr"
+    "build": "tsc --noCheck && vite build && vite build --ssr",
+    "composer.install": "composer install"
   },
+  "pre-commit": [
+    "composer.install"
+  ],
   "devDependencies": {
     "@headlessui/react": "^2.0.0",
     "@inertiajs/react": "^1.0.0",
